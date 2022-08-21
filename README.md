@@ -22,7 +22,47 @@ sudo systemctl enable NetworkManager.service
 sudo systemctl start NetworkManager.service
 ```
 
-Más todo lo demás que se encuentra detallado en la [wiki](https://wiki.archlinux.org/title/installation_guide) de *Arch*.
+## Problemas con los *locales*
+
+# locale
+
+A veces los *locale* pueden dar problemas y es por ello que debemos de configurarlos correctamente siguiendo lo dispuesto en la [wiki](https://wiki.archlinux.org/title/locale).
+
+Tenemos que generar los locales que queramos en nuestro sistema. En mi caso inglés y español. Para ello descomentamos del archivo `/etc/locale.gen` las siguientes líneas:
+
+```
+en_US.UTF-8
+```
+
+```
+es_ES.UTF-8
+```
+
+Y generamos los locales.
+
+
+```
+locale-gen
+```
+
+Mi sistema está en inglés, pero con números y fechas regionales, es decir, de España. Esto se refleja de la siguiente forma en el archivo `/etc/locale.conf`.
+
+```
+LANG=es_ES.UTF-8
+LANGUAGE=es_ES
+LC_ADDRESS=es_ES.UTF-8
+LC_COLLATE=es_ES.UTF-8
+LC_CTYPE=es_ES.UTF-8
+LC_IDENTIFICATION=es_ES.UTF-8
+LC_MEASUREMENT=es_ES.UTF-8
+LC_MESSAGES=en_US.UTF-8
+LC_MONETARY=es_ES.UTF-8
+LC_NAME=es_ES.UTF-8
+LC_NUMERIC=es_ES.UTF-8
+LC_PAPER=es_ES.UTF-8
+LC_TELEPHONE=es_ES.UTF-8
+LC_TIME=es_ES.UTF-8
+```
 
 ## Previo a _Qtile_
 
