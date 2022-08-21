@@ -68,7 +68,24 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     
     # Shortcuts applications
+    # Terminal
     Key([mod], "Return", lazy.spawn("kitty"), desc="Launch terminal"),
+    # Screenshot
+    Key([mod], "s", lazy.spawn("scrot")),
+    Key([mod, "shift"], "s", lazy.spawn("scrot -s")),
+    # Volume
+    Key([], "XF86AudioLowerVolume", lazy.spawn(
+        "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+    )),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn(
+        "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+    )),
+    Key([], "XF86AudioMute", lazy.spawn(
+        "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    )),
+    # Brightness
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
 
 ]
 
@@ -105,25 +122,26 @@ layouts = [
 ]
 
 widget_defaults = {
-    "background": "#f9f9fa",
+    "background": "#F5F5F5",
     "foreground": "0c0c0d",
-    "font": "Hack Nerd Font",
+    "font": "Roboto",
     "fontsize": 14,
-    "padding": 5,
+    "padding": 10,
 }
 
-widgets = [
+widgets_primary = [
     widget.GroupBox(
-        active="#a44900", 
-        font="UbuntuMono Nerd Font",
-        fontsize=18,
-        highlight_method="text"),
+        active="#a4000f",
+        font="Roboto",
+        fontsize=25,
+        highlight_color=['#0f1126', '#0f1126'],
+        highlight_method="line"),
     widget.Sep(linewidth=0,padding=2),
     widget.Prompt(),
     widget.WindowName(),
     widget.Net(format="Net:{down}/{up}"),
     widget.Battery(),
-    widget.ThermalSensor(),
+    widget.ThermalSensor(foreground="#0c0c0d", tag_sensor="Package id 0"),
     widget.Volume(fmt="  {}", font="UbuntuMono Nerd Font"),
     widget.Systray(),
     widget.CheckUpdates(
@@ -136,14 +154,20 @@ widgets = [
     widget.Notify(),
 ]
 
+widgets_secondary = [
+    widget.GroupBox(
+        active="#a4000f",
+        font="Roboto",
+        fontsize=25,
+        highlight_color=["#a47f00", "#a47f00"],
+        highlight_method="line"),
+    widget.Sep(linewidth=0,padding=2),
+    widget.Prompt(),
+    widget.WindowName(),
+]
 screens = [
-    Screen(
-        top=bar.Bar(
-            widgets,
-            30,
-            opacity=0.8
-        ),
-    ),
+    Screen(top=bar.Bar(widgets_primary, 30, opacity=0.7)),
+    Screen(top=bar.Bar(widgets_secondary, 30, opacity=0.7)),
 ]
 
 # Drag floating layouts.
