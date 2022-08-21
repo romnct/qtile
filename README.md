@@ -24,8 +24,6 @@ sudo systemctl start NetworkManager.service
 
 ## Problemas con los *locales*
 
-# locale
-
 A veces los *locale* pueden dar problemas y es por ello que debemos de configurarlos correctamente siguiendo lo dispuesto en la [wiki](https://wiki.archlinux.org/title/locale).
 
 Tenemos que generar los locales que queramos en nuestro sistema. En mi caso inglés y español. Para ello descomentamos del archivo `/etc/locale.gen` las siguientes líneas:
