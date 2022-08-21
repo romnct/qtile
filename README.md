@@ -9,7 +9,7 @@ Instalado en una máquina con ***Arch Linux***.
 Durante la instalación de Arch Linux se deberán instalar los siguientes paquetes en `chroot`.
 
 ```
-sudo pacman -S networkmanager wpa_supplicant base-devel sudo nano neovim git psutil efibootmgr grub pacman-contrib unzip
+sudo pacman -S grub efibootmgr networkmanager wpa_supplicant base-devel git sudo nano neovim python-psutil pacman-contrib unzip
 ```
 
 Iniciar el servicio de *networkmanager * para tener internet.
@@ -39,6 +39,7 @@ git clone https://aur.archlinux.org/yay.git && cd yay
 ```
 makepkg -si
 ```
+
 ### Algunos paquetes necesarios
 Previo a instalar _Qtile_ debemos instalar los siguientes paquetes:
 
@@ -52,24 +53,29 @@ Previo a instalar _Qtile_ debemos instalar los siguientes paquetes:
 | lightdm-webkit2-greeter| Interfaz gráfica de lightdm |
 | lightdm-webkit-theme-sequoia-git| Un tema para webkit2 |
 
+
 ```
-sudo pacman -Syu intel-ucode
+sudo pacman -Syu
 ```
 
 ```
-sudo pacman -Syu xf86-video-intel
+sudo pacman -S intel-ucode
 ```
 
 ```
-sudo pacman -Syu mesa
+sudo pacman -S xf86-video-intel
 ```
 
 ```
-sudo pacman -Syu xorg-server
+sudo pacman -S mesa
 ```
 
 ```
-sudo pacman -Syu lightdm
+sudo pacman -S xorg-server
+```
+
+```
+sudo pacman -S lightdm
 ```
 
 ```
@@ -132,6 +138,7 @@ sudo pacman -S kitty
 ```
 Key([mod], "Return", lazy.spawn("kitty"), desc='Launches My Terminal' )
 ```
+
 Debido a que en caso contrario no podremos iniciar la terminal desde *Qtile* porque, este, tiene asignada como por defecto la *xterm*.
 
 ---
@@ -148,10 +155,10 @@ Este archivo será llamado a través de un *hook* de Qtile que definiremos en su
 
 ### Establecer una distribución del teclado
 
-Para mantener fija la distribución del teclado debemos crear el siguiente archivo `/home/.Xkbmap` especificando en él la distribución deseada.
+Para mantener fija la distribución del teclado debemos crear el siguiente archivo `$HOME/.Xkbmap` especificando en él la distribución deseada.
 
 ```
-es
+echo "es" > $HOME/.Xkbmap
 ```
 
 Este arhivo es leído por el *script* `/etc/lightdm/Xsession` el cual ejecutará el siguiente comando cada vez que iniciemos sesión en *lightdm*.
@@ -179,7 +186,7 @@ sudo pacman -S xdg-user-dirs
 Y para crearlos.
 
 ```
-sudo pacman -S xdg-user-dirs-update
+xdg-user-dirs-update
 ```
 
 ### Necesitamos audio
