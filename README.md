@@ -159,7 +159,7 @@ sudo systemctl start lightdm
 
 ---
 
-**_Nota:_** Se debería de hacer lo siguiente antes de reiniciar o ejecutar el comando anterior.
+**_Nota:_** Se debería de hacer uno de los siguientes pasos antes de reiniciar o ejecutar el comando anterior.
 
 1. Instalar la ***xterm***.
 
