@@ -271,8 +271,6 @@ Y para probarlo escribimos el siguiente comando en consola:
 notify-send "Hello!"
 ```
 
-
-
 ### Algun lanzador chulo
 
 Me he decantado por [ulauncher](https://ulauncher.io/).
@@ -303,6 +301,18 @@ yay -S nerd-fonts-ubuntu-mono
 
 ```
 yay -S nerd-fonts-hack 
+```
+
+```
+yay -S nerd-fonts-hack 
+```
+
+```
+yay -S ttf-roboto
+```
+
+```
+yay -S ttf-iosevka-nerd
 ```
 
 ### Compositor para Xorg
