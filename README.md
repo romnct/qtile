@@ -1,0 +1,306 @@
+# Qtile!
+
+Que sirva como referencia de cuando vuelva a instalar _**Qtile**_. 
+
+Instalado en una máquina con ***Arch Linux***.
+
+## Durante la instalación de Arch Linux
+
+Durante la instalación de Arch Linux se deberán instalar los siguientes paquetes en `chroot`.
+
+```
+sudo pacman -S networkmanager wpa_supplicant base-devel sudo nano neovim git psutil efibootmgr grub pacman-contrib unzip
+```
+
+Iniciar el servicio de *networkmanager * para tener internet.
+
+```
+sudo systemctl enable NetworkManager.service
+```
+
+```
+sudo systemctl start NetworkManager.service
+```
+
+Más todo lo demás que se encuentra detallado en la [wiki](https://wiki.archlinux.org/title/installation_guide) de *Arch*.
+
+## Previo a _Qtile_
+
+### AUR helper
+
+Necesitaremos ciertos paquetes que no se encuentran disponible en los repositorios oficiales de *Arch*. Estos paquetes los podemos encontrar en [AUR](https://aur.archlinux.org/), el repositorio de usuarios de *Arch Linux*.
+
+Con [yay](https://github.com/Jguer/yay) instalamos los paquetes de *AUR*.
+
+```
+git clone https://aur.archlinux.org/yay.git && cd yay
+```
+
+```
+makepkg -si
+```
+### Algunos paquetes necesarios
+Previo a instalar _Qtile_ debemos instalar los siguientes paquetes:
+
+| Paquete | Descripción |
+|---------|-------------|
+| intel-ucode | Actualizaciones para las CPU de Intel |
+| xf86-video-intel | Drivers para gráficas *Intel* |
+| mesa | Implementación de código abierto de la especificación OpenGL. En otras palabras, son conjunto de software para el procesamiento de gráficos avanzados |
+| xorg-server | Sistema de ventanas |
+| lightdm | Gestor de acceso |
+| lightdm-webkit2-greeter| Interfaz gráfica de lightdm |
+| lightdm-webkit-theme-sequoia-git| Un tema para webkit2 |
+
+```
+sudo pacman -Syu intel-ucode
+```
+
+```
+sudo pacman -Syu xf86-video-intel
+```
+
+```
+sudo pacman -Syu mesa
+```
+
+```
+sudo pacman -Syu xorg-server
+```
+
+```
+sudo pacman -Syu lightdm
+```
+
+```
+pacman -S lightdm-webkit2-greeter
+```
+
+```
+yay -S lightdm-webkit-theme-sequoia-git
+```
+
+Una vez instalados los paquetes debemos iniciar el servicio de lightdm.
+
+```
+sudo systemctl enable lightdm
+```
+
+E indicarle a *lightdm* que *greeter* debe utilizar. Para ello se debe de descomentar `greeter-session` del archivo de configuración de *lightdm* `/etc/lightdm/lightdm.conf` e indicarle el nombre del *greeter*.
+
+```
+greeter-session=lightdm-webkit2-greeter 
+```
+
+Y en la configuración de *webkit2* `/etc/lightdm/lightdm-webkit2-greter.conf`
+
+```
+webkit_theme=sequoia 
+```
+
+## Instalación de Qtile
+
+Instalamos *Qtile* desde el repositorio oficial de *Arch Linux*. También lo podremos hacer desde su repositorio en *Github*. Cuestión de gustos.
+
+```
+sudo pacman -S qtile
+```
+
+Ahora ya tenemos todo listo para poder iniciar Qtile. Tenemos el servidor de ventanas, el gestor de acceso y el gestor de ventanas. **Reiniciamos** o escribimos el siguiente comando:
+
+
+```
+sudo systemctl start lightdm
+```
+
+---
+
+**_Nota:_** Se debería de hacer lo siguiente antes de reiniciar o ejecutar el comando anterior.
+
+1. Instalar la ***xterm***.
+
+```
+sudo pacman -S xterm
+```
+
+2. Cambiar en el archivo *config* `/.config/qtile/config.py`  de *Qtile* la terminal que usará por defecto. En mi caso la [kitty](https://sw.kovidgoyal.net/kitty/).
+
+```
+sudo pacman -S kitty
+```
+
+```
+Key([mod], "Return", lazy.spawn("kitty"), desc='Launches My Terminal' )
+```
+Debido a que en caso contrario no podremos iniciar la terminal desde *Qtile* porque, este, tiene asignada como por defecto la *xterm*.
+
+---
+
+## Configuración de Qtile
+
+### Primeros pasos en Qtile
+
+#### Definir el archivo `autostart`
+
+A veces necesitaremos que ciertos paquetes se inicicen en el mismo momento que Qtile, es por ello que debemos definir un archivo donde estén listado estos paquetes. El archivo en cuestión podrá estar situado en cualquier lugar, pero lo más lógico es que se encuentre en el directorio de configuración de *Qtile* `$HOME.config/qtile`.
+
+Este archivo será llamado a través de un *hook* de Qtile que definiremos en su archivo de configuración `$HOME.config/qtile`.
+
+### Establecer una distribución del teclado
+
+Para mantener fija la distribución del teclado debemos crear el siguiente archivo `/home/.Xkbmap` especificando en él la distribución deseada.
+
+```
+es
+```
+
+Este arhivo es leído por el *script* `/etc/lightdm/Xsession` el cual ejecutará el siguiente comando cada vez que iniciemos sesión en *lightdm*.
+
+```
+setxkbmap `cat /home/.Xkbmap`
+```
+
+### Touchpad¨- (No probado)
+
+Para el correcto funcionamiento de nuestro touchpad debemos instalar el controlador ***xf86-input-libinput***.
+
+```
+sudo pacman -S xf86-input-libinput
+```
+
+###  Creación de los directorios de usuario
+
+Podemos crearlos gracias al paquete `xdg-user-dirs`.
+
+```
+sudo pacman -S xdg-user-dirs
+```
+
+Y para crearlos.
+
+```
+sudo pacman -S xdg-user-dirs-update
+```
+
+### Necesitamos audio
+
+Recuerda que Qtile es un gestor de ventanas y nada más. No hay audio por lo tanto. Instalamos **pulseaudio* y **pamixer** para controlar el sonido o **pavucontrol** que tiene interfaz gráfica.
+
+```
+sudo pacman -S pulseaudio
+```
+
+```
+sudo pacman -S pulseaudio-alsa
+```
+
+```
+sudo pacman -S pamixer
+```
+
+```
+sudo pacman -S pavucontrol
+```
+
+***Alsa*** ya está incluido por defecto en el kernel de Arch por lo que no es necesaria su instalación explícitamente.
+
+### Las notificaciones
+
+Para tener notificaciones en el escritorio instalamos ***libnotify*** y ***notification-daemon***.
+
+```
+sudo pacman -S libnotify notification-daemon
+```
+
+Y seguimos la *wiki* que nos indica que debemos crear el archivo `/usr/share/dbus-1/services/org.freedesktop.Notifications.service` y añadir lo siguiente.
+
+```
+[D-BUS Service]
+Name=org.freedesktop.Notifications
+Exec=/usr/lib/notification-daemon-1.0/notification-daemon
+```
+
+Y para probarlo escribimos el siguiente comando en consola:
+
+```
+notify-send "Hello!"
+```
+
+
+
+### Algun lanzador chulo
+
+Me he decantado por [ulauncher](https://ulauncher.io/).
+
+```
+git clone https://aur.archlinux.org/ulauncher.git && cd ulauncher && makepkg -si
+```
+
+Debemos añadirlo al archivo `.config/qtile/autostart.sh` para que inicie cuando lo haga *Qtile*.
+
+```
+ulauncher --hide-window &
+```
+
+### Unas fuentes bonitas
+
+Primero, debemos instalar algunas fuentes básicas.
+
+```
+sudo pacman -S ttf-dejavu ttf-liberation noto-fonts
+```
+
+Ahora vamos a instalar las ***Ubuntu Nerd Font***, pero si quisieramos otras el método es el mismo. Siempre y cuando estén en *AUR* claro.
+
+```
+yay -S nerd-fonts-ubuntu-mono
+```
+
+```
+yay -S nerd-fonts-hack 
+```
+
+### Compositor para Xorg
+
+Para darle algo de vidilla al gestor de ventanas, descargamos un compositor **[Picom](https://wiki.archlinux.org/index.php/Picom)** para, por ejemplo, crear transparencias.
+
+```
+sudo pacman -S picom
+```
+
+### Captura de pantalla
+
+**[scrot](https://wiki.archlinux.org/index.php/Screen_capture)**
+
+
+### Brillo para portátiles
+
+**[brightnessctl](https://www.archlinux.org/packages/community/x86_64/brightnessctl/)**
+
+
+### Fondo de pantalla
+
+### La *zsh*
+
+Seguir al pie de la letra [zsh](https://github.com/romnct/zsh).
+
+### Mi *kitty*
+
+### *nvim*
+
+### *bat*
+
+### Mi configuración
+
+#### El *script* autostart
+
+## Líneas generales a seguir después de la instalación
+
+Tomando como referencia las recomendaciones generales de la *wiki* de [*Arch Linux*](https://wiki.archlinux.org/title/General_recommendations).
+
+### Mantenimiento del sistema
+#### Actualización
+#### Paquetes huérfanos
+### Configuración del cortafuegos
+
+
