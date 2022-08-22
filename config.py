@@ -89,7 +89,14 @@ keys = [
 
 ]
 
-groups = [Group(i) for i in ["  ", "  ", "  ", "  "]]
+# groups = [Group(i) for i in [, , , ]]
+
+groups = [
+    Group("www", matches=[Match(wm_class=["firefox"])], exclusive=False, layout="max", position=1, label="  "),
+    Group("dev", position=2, label="  "),
+    Group("term", layout="max", position=3, label="  "),
+    Group("misc", position=4, label="  "),
+]
 
 for i, group in enumerate(groups):
     actual_key = str(i + 1)
