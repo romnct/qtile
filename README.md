@@ -207,11 +207,20 @@ setxkbmap `cat /home/.Xkbmap`
 
 ### Touchpad¨- (No probado)
 
-Para el correcto funcionamiento de nuestro touchpad debemos instalar el controlador ***xf86-input-libinput***.
+De esto se encarga el *driver* [libinput](https://wiki.archlinux.org/title/libinput), el cual, si tienes instalado [xorg](https://wiki.archlinux.org/title/Xorg) ya lo tienes incluido.
+
+El *touchpad* se configura a través del archivo de configuración `/etc/X11/xorg.conf.d/30-touchpad.conf`. Se debe de crear en el caso de no existir.
 
 ```
-sudo pacman -S xf86-input-libinput
+Section "InputClass"
+    Identifier "SynPS/2 Synaptics TouchPad"
+    Driver "libinput"
+    Option "Tapping" "on"
+    Option "NaturalScrolling" "true"
+EndSection
 ```
+
+El `Identifier` se puede conocer a gracias al comando `libinput list-devices`.
 
 ###  Creación de los directorios de usuario
 
