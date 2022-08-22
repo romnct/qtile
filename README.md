@@ -356,6 +356,14 @@ Seguir al pie de la letra [zsh](https://github.com/romnct/zsh).
 
 ### *nvim*
 
+Instalación y configuración de [neovim](https://github.com/romnct/nvim). 
+
+Para permitir el uso del *clipboard* debemos instalar el paquete [clip](https://archlinux.org/packages/extra/x86_64/xclip/)
+
+```
+sudo pacman -S xclip
+```
+
 ### *bat*
 
 ### Mi configuración
