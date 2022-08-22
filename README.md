@@ -249,6 +249,10 @@ sudo pacman -S pulseaudio-alsa
 ```
 
 ```
+sudo pacman -S alsa-utils
+```
+
+```
 sudo pacman -S pamixer
 ```
 
