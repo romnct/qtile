@@ -366,6 +366,17 @@ sudo pacman -S xclip
 
 ### *bat*
 
+### Tamaño y tema del cursor
+
+El archivo que modifica las opciones del tamaño o del tema del cursor instalados son `Xcursor.theme` y `Xcursor.size`. Para modificarlos debemos hacerlo en el archivo `.Xresources` que se creará si no existe.
+
+```
+Xcursor.theme: Adwaita
+Xcursor.size: 20
+```
+
+Se pueden obtener los temas instalados haciendo uso del comando ` find /usr/share/icons ~/.local/share/icons ~/.icons -type d -name "cursors"`.
+
 ### Mi configuración
 
 #### El *script* autostart
