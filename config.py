@@ -157,7 +157,7 @@ widgets_primary = [
         display_format="  {updates}",
         font="UbuntuMono Nerd Font",
         ),
-    widget.Clock(format="%a %H:%M:%S %d-%m-%Y"),
+    widget.Clock(format="%a %d-%m-%Y %H:%M:%S"),
     widget.Notify(),
 ]
 
